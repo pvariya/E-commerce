@@ -75,6 +75,22 @@ const NewArrivel = () => {
     },
   ];
 
+  const handalMouseDown = (e) => {
+    setIsDragging(true);
+    serStratX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handalMouseMove = (e) => {
+    if (!isDragging) return;
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = x - startX;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+  const handalMouseUporLeave = () => {
+    setIsDragging(false);
+  };
+
   const scroll = (diracion) => {
     const scrollAmount = diracion === "left" ? -300 : 300;
     scrollRef.current.scrollBy({ left: scrollAmount, behaviour: "smooth" });
@@ -91,12 +107,6 @@ const NewArrivel = () => {
       setCanScrollLeft(leftScroll > 0);
       setCanScrollRight(rightScrollLable);
     }
-
-    console.log({
-      scrollLeft: container.scrollLeft,
-      clientWidth: container.clientWidth,
-      scrollRight: container.scrollWidth,
-    });
   };
 
   useEffect(() => {
@@ -104,10 +114,11 @@ const NewArrivel = () => {
     if (container) {
       container.addEventListener("scroll", updateScrollBtn);
       updateScrollBtn();
+      return () => container.removeEventListener("scroll", updateScrollBtn);
     }
-  });
+  },[]);
   return (
-    <section>
+    <section className="py-16 px-4 lg:py-0">
       <div className="container mx-auto text-center mb-10 relative">
         <h2 className="text-3xl font-bold mb-4">Explore New Arrivals</h2>
         <p className="text-lg text-gray-600 mb-8">
@@ -120,7 +131,9 @@ const NewArrivel = () => {
             onClick={() => scroll("left")}
             disabled={!canScrollLeft}
             className={`p-2 rounded  ${
-              canScrollLeft ? "bg-white text-black" : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              canScrollLeft
+                ? "bg-white text-black"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
           >
             <FiChevronLeft className="text-2xl" />
@@ -129,8 +142,10 @@ const NewArrivel = () => {
           <button
             onClick={() => scroll("right")}
             className={`p-2 rounded  ${
-                canScrollRight ? "bg-white text-black" : "bg-gray-200 text-gray-400 cursor-not-allowed"
-              }`}
+              canScrollRight
+                ? "bg-white text-black"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            }`}
           >
             <FiChevronRight className="text-2xl" />
           </button>
@@ -139,17 +154,24 @@ const NewArrivel = () => {
 
       <div
         ref={scrollRef}
-        className="container mx-auto overflow-x-scroll flex space-x-6 relative"
+        className={`container mx-auto overflow-x-scroll flex space-x-6 relative scrollbar-hide ${
+          isDragging ? "cursor-grabbing" : "cursor-grab"
+        }`}
+        onMouseDown={handalMouseDown}
+        onMouseMove={handalMouseMove}
+        onMouseUp={handalMouseUporLeave}
+        onMouseLeave={handalMouseUporLeave}
       >
         {newArrivel.map((product) => (
           <div
             key={product._id}
-            className="min-w-[100%] sm:min-w-[50%] lg:min-w-[30%] relative"
+            className="min-w-[100%] sm:min-w-[50%] lg:min-w-[30%] relative  "
           >
             <img
               src={product.img[0]?.url}
               alt={product.img[0]?.alttext || product.name}
               className="w-full h-[500px] object-cover rounded-lg"
+              draggable={false}
             />
             <div className="absolute bottom-0 left-0 right-0 bg-opacity-50 backdrop-blur-md text-white p-4 rounded-b-lg">
               <Link to={`/product/${product._id}`}>

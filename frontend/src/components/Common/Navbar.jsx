@@ -56,7 +56,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex item-center space-x-4">
-          <Link to="profile" className="hover:text-black pt-1">
+          <Link to="/profile" className="hover:text-black pt-1">
             <HiOutlineUser className="h-6 w-6 text-gray-700" />
           </Link>
           <button
