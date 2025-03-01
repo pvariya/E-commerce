@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import CollectionPage from "./pages/CollectionPage";
 import ProductDetails from "./components/Products/ProductDetails";
 import Checkout from "./components/Cart/Checkout";
+import OrderConfirmation from "./pages/OrderConfirmation";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/collection/:collection" element={<CollectionPage />} />
           <Route path="product/:id" element={<ProductDetails />} />
         <Route path="/checkout" element={<Checkout/>}/>
+        <Route path="order-confirmation" element={<OrderConfirmation/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
