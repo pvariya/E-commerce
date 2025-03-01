@@ -20,8 +20,10 @@ const CollectionPage = () => {
 
   useEffect(() => {
     document.addEventListener("mousedown", handalClickOutSide);
+    return ()=>{
     document.removeEventListener("mousedown", handalClickOutSide);
-  });
+    }
+  },[]);
 
   useEffect(() => {
     setTimeout(() => {
