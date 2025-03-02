@@ -41,7 +41,7 @@ const OrderConfirmation = () => {
         Thank you for your order!
       </h1>
       {checkout && (
-        <div className="p-6 rounded-lg border-amber-100">
+        <div className="p-6 rounded-lg border border-gray-300">
           <div className="flex justify-between mb-20">
             <div>
               <h2 className="text-xl font-semibold">

@@ -56,6 +56,13 @@ const Navbar = () => {
         </div>
 
         <div className="flex item-center space-x-4">
+          <Link
+            to="/admin"
+            className="flex items-center justify-center bg-black px-2 py-1 rounded text-sm text-white text-center hover:bg-gray-800"
+          >
+            Admin
+          </Link>
+
           <Link to="/profile" className="hover:text-black pt-1">
             <HiOutlineUser className="h-6 w-6 text-gray-700" />
           </Link>
